@@ -32,8 +32,48 @@ SELECT * FROM Homework1SmatphoneShop
 SELECT * FROM Homework1SmatphoneShop 
 WHERE id LIKE '%8%' OR manufacturer LIKE '%8%' OR model_name LIKE '%8%' OR quantity LIKE '%8%' OR price LIKE '%8%';
 
+USE Homework;
+DROP TABLE IF EXISTS salesHomework2;
+CREATE TABLE salesHomework2
+(
+id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+order_date DATE NOT NULL,
+count_product INT NOT NULL
+);
+INSERT INTO salesHomework2 (order_date, count_product)
+VALUES 
+("2023-02-02", 25),
+("2023-03-12", 120),
+("2023-04-06", 90),
+("2023-05-18", 320),
+("2023-06-24", 201);
+SELECT * FROM salesHomework2;
+SELECT 
+id AS 'Номер заказа',
+order_date AS 'Дата заказа',
+count_product AS 'Количество',
+ IF (count_product < 100, 'Маленький заказ', 
+   IF (count_product BETWEEN 100 AND 300, 'Средний заказ', 
+     IF (count_product > 300, 'Большой заказ', 'Не определено')  
+      )
+ )
+ AS 'Размер заказа'
+FROM salesHomework2;
 
-
-
+USE Homework;
+DROP TABLE IF EXISTS ordersHomework2;
+CREATE TABLE ordersHomework2
+(
+id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+employee_id VARCHAR(10) NOT NULL,
+amoun INT NOT NULL
+);
+INSERT INTO salesHomework2 (order_date, count_product)
+VALUES 
+("2023-02-02", 25),
+("2023-03-12", 120),
+("2023-04-06", 90),
+("2023-05-18", 320),
+("2023-06-24", 201);
 
 
