@@ -1,3 +1,4 @@
+-- Homework 1
 CREATE DATABASE Homework;
 USE Homework;
 CREATE TABLE Homework1SmatphoneShop
@@ -32,6 +33,7 @@ SELECT * FROM Homework1SmatphoneShop
 SELECT * FROM Homework1SmatphoneShop 
 WHERE id LIKE '%8%' OR manufacturer LIKE '%8%' OR model_name LIKE '%8%' OR quantity LIKE '%8%' OR price LIKE '%8%';
 
+-- Homework 2
 USE Homework;
 DROP TABLE IF EXISTS salesHomework2;
 CREATE TABLE salesHomework2
@@ -66,14 +68,27 @@ CREATE TABLE ordersHomework2
 (
 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 employee_id VARCHAR(10) NOT NULL,
-amoun INT NOT NULL
+amount DECIMAL(5,2) NOT NULL,
+order_status VARCHAR(10) NOT NULL
 );
-INSERT INTO salesHomework2 (order_date, count_product)
+INSERT INTO ordersHomework2 (employee_id, amount, order_status)
 VALUES 
-("2023-02-02", 25),
-("2023-03-12", 120),
-("2023-04-06", 90),
-("2023-05-18", 320),
-("2023-06-24", 201);
+('e03',15.00, 'OPEN'),
+('e01',25.50, 'OPEN'),
+('e05',100.70, 'CLOSED'),
+('e02',22.18, 'OPEN'),
+('e04',9.50, 'CANCELLED');
+SELECT 
+	id,
+    employee_id,
+	amount,
+	order_status,
+	CASE 
+		WHEN order_status = 'OPEN' THEN 'Order is in open state'
+		WHEN order_status = 'CLOSED' THEN 'Order is closed'
+		ELSE 'Order is cancelled'
+	END AS 'full_order_status'	
+FROM ordersHomework2; 
+
 
 
