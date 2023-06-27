@@ -90,5 +90,74 @@ SELECT
 	END AS 'full_order_status'	
 FROM ordersHomework2; 
 
+-- Homework 3
+USE Homework;
+DROP TABLE IF EXISTS `staffHomework3`;
+CREATE TABLE IF NOT EXISTS `staffHomework3`
+(`id` INT PRIMARY KEY AUTO_INCREMENT,
+`firstname` VARCHAR(45),
+`lastname` VARCHAR(45),
+`post` VARCHAR(45),
+`seniority` INT,
+`salary` INT,
+`age` INT);
+
+INSERT INTO `staffHomework3` (`firstname`, `lastname`, `post`,`seniority`,`salary`, `age`)
+VALUES
+('Вася', 'Васькин', 'Начальник', 40, 100000, 60), 
+('Петр', 'Власов', 'Начальник', 8, 70000, 30),
+('Катя', 'Катина', 'Инженер', 2, 70000, 25),
+('Саша', 'Сасин', 'Инженер', 12, 50000, 35),
+('Иван', 'Петров', 'Рабочий', 40, 30000, 59),
+('Петр', 'Петров', 'Рабочий', 20, 55000, 60),
+('Сидр', 'Сидоров', 'Рабочий', 10, 20000, 35),
+('Антон', 'Антонов', 'Рабочий', 8, 19000, 28),
+('Юрий', 'Юрков', 'Рабочий', 5, 15000, 25),
+('Максим', 'Петров', 'Рабочий', 2, 11000, 19),
+('Юрий', 'Петров', 'Рабочий', 3, 12000, 24),
+('Людмила', 'Маркина', 'Уборщик', 10, 10000, 49);
+
+
+-- Отсортируйте данные по полю заработная плата (salary) в порядке: убывания; возрастания
+SELECT* 
+FROM staffHomework3
+ORDER BY salary;
+
+SELECT* 
+FROM staffHomework3
+ORDER BY salary DESC;
+
+-- Выведите 5 максимальных заработных плат (salary)
+SELECT* 
+FROM staffHomework3
+ORDER BY salary DESC
+LIMIT 5;
+-- Посчитайте суммарную зарплату (salary) по каждой специальности (роst)
+SELECT SUM(salary), post 
+FROM staffHomework3
+GROUP BY post;
+-- Найдите кол-во сотрудников со специальностью (post) «Рабочий» в возрасте от 24 до 49 лет включительно.
+SELECT
+GROUP_CONCAT(lastname) AS 'names_staff',
+COUNT(post)
+FROM
+staffHomework3
+WHERE post = 'Рабочий' AND (age BETWEEN 24 AND 49);
+
+-- Найдите количество специальностей
+SELECT
+GROUP_CONCAT(DISTINCT post) AS 'post_names',
+COUNT(DISTINCT post)
+FROM
+staffHomework3;
+
+-- Выведите специальности, у которых средний возраст сотрудников меньше 30 лет включительно
+SELECT DISTINCT post 
+FROM
+staffHomework3
+WHERE (SELECT AVG(age)) < 30;
+
+
+
 
 
