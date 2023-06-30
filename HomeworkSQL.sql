@@ -1,4 +1,5 @@
 -- Homework 1
+-- Создайте таблицу с мобильными телефонами, используя графический интерфейс(или скрипт**). Заполните БД данными
 CREATE DATABASE Homework;
 USE Homework;
 CREATE TABLE Homework1SmatphoneShop
@@ -23,17 +24,28 @@ SELECT * FROM Homework1SmatphoneShop;
 UPDATE Homework1SmatphoneShop
 SET model_name = 'iPhone 14 pro'
 WHERE price = '102700.00';
+
+-- Выведите название, производителя и цену для товаров, количество которых превышает 2
 SELECT * FROM Homework1SmatphoneShop;
 SELECT model_name, manufacturer, price FROM Homework1SmatphoneShop WHERE quantity > 2;
+--  Выведите весь ассортимент товаров марки “Samsung”
 SELECT model_name FROM Homework1SmatphoneShop WHERE manufacturer LIKE 'Samsung';
+-- *4.*** С помощью регулярных выражений найти:
+
+-- 4.1. Товары, в которых есть упоминание "Iphone"
 SELECT * FROM Homework1SmatphoneShop 
 WHERE id LIKE '%Samsung%' OR manufacturer LIKE '%Samsung%' OR model_name LIKE '%Samsung%' OR quantity LIKE '%Samsung%' OR price LIKE '%Samsung%';
+
+-- 4.2. "Samsung"
 SELECT * FROM Homework1SmatphoneShop
  WHERE id LIKE '%iPhone%' OR manufacturer LIKE '%iPhone%' OR model_name LIKE '%iPhone%' OR quantity LIKE '%iPhone%' OR price LIKE'iPhone%';
+
+-- 4.3. Товары, в которых есть ЦИФРА "8"
 SELECT * FROM Homework1SmatphoneShop 
 WHERE id LIKE '%8%' OR manufacturer LIKE '%8%' OR model_name LIKE '%8%' OR quantity LIKE '%8%' OR price LIKE '%8%';
 
 -- Homework 2
+-- Используя операторы языка SQL, создайте табличку “sales”. Заполните ее данными
 USE Homework;
 DROP TABLE IF EXISTS salesHomework2;
 CREATE TABLE salesHomework2
@@ -49,6 +61,8 @@ VALUES
 ("2023-04-06", 90),
 ("2023-05-18", 320),
 ("2023-06-24", 201);
+
+-- Сгруппируйте значений количества в 3 сегмента — меньше 100, 100-300 и больше 300, используя функцию IF
 SELECT * FROM salesHomework2;
 SELECT 
 id AS 'Номер заказа',
@@ -62,6 +76,7 @@ count_product AS 'Количество',
  AS 'Размер заказа'
 FROM salesHomework2;
 
+-- Создайте таблицу “orders”, заполните ее значениями. Покажите “полный” статус заказа, используя оператор CASE
 USE Homework;
 DROP TABLE IF EXISTS ordersHomework2;
 CREATE TABLE ordersHomework2
@@ -156,8 +171,211 @@ SELECT DISTINCT post
 FROM
 staffHomework3
 WHERE (SELECT AVG(age)) < 30;
+DROP TABLE IF EXISTS `shops`;
+CREATE TABLE `shops` (
+	`id` INT,
+    `shopname` VARCHAR (100),
+    PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS `cats`;
+CREATE TABLE `cats` (
+	`name` VARCHAR (100),
+    `id` INT,
+    PRIMARY KEY (id),
+    shops_id INT,
+    CONSTRAINT fk_cats_shops_id FOREIGN KEY (shops_id)
+        REFERENCES `shops` (id)
+);
+
+INSERT INTO `shops`
+VALUES 
+		(1, "Четыре лапы"),
+        (2, "Мистер Зоо"),
+        (3, "МурзиЛЛа"),
+        (4, "Кошки и собаки");
+
+INSERT INTO `cats`
+VALUES 
+		("Murzik",1,1),
+        ("Nemo",2,2),
+        ("Vicont",3,1),
+        ("Zuza",4,3);
 
 
+-- Последнее задание, таблица:
+
+DROP TABLE IF EXISTS Analysis;
+
+CREATE TABLE Analysis
+(
+	an_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	an_name varchar(50),
+	an_cost INT,
+	an_price INT,
+	an_group INT
+);
+
+INSERT INTO analysis (an_name, an_cost, an_price, an_group)
+VALUES 
+	('Общий анализ крови', 30, 50, 1),
+	('Биохимия крови', 150, 210, 1),
+	('Анализ крови на глюкозу', 110, 130, 1),
+	('Общий анализ мочи', 25, 40, 2),
+	('Общий анализ кала', 35, 50, 2),
+	('Общий анализ мочи', 25, 40, 2),
+	('Тест на COVID-19', 160, 210, 3);
+
+-- Homework 4
+USE homework;
+DROP TABLE IF EXISTS `shops`;
+CREATE TABLE `shops` (
+	`id` INT,
+    `shopname` VARCHAR (100),
+    PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS `cats`;
+CREATE TABLE `cats` (
+	`name` VARCHAR (100),
+    `id` INT,
+    PRIMARY KEY (id),
+    shops_id INT,
+    CONSTRAINT fk_cats_shops_id FOREIGN KEY (shops_id)
+        REFERENCES `shops` (id)
+);
+
+INSERT INTO `shops`
+VALUES 
+		(1, "Четыре лапы"),
+        (2, "Мистер Зоо"),
+        (3, "МурзиЛЛа"),
+        (4, "Кошки и собаки");
+
+INSERT INTO `cats`
+VALUES 
+		("Murzik",1,1),
+        ("Nemo",2,2),
+        ("Vicont",3,1),
+        ("Zuza",4,3);
 
 
+-- Последнее задание, таблица:
+USE homework;
+DROP TABLE IF EXISTS Analysis;
 
+CREATE TABLE Analysis
+(
+	an_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	an_name varchar(50),
+	an_cost INT,
+	an_price INT,
+	an_group INT
+);
+
+INSERT INTO analysis (an_name, an_cost, an_price, an_group)
+VALUES 
+	('Общий анализ крови', 30, 50, 1),
+	('Биохимия крови', 150, 210, 1),
+	('Анализ крови на глюкозу', 110, 130, 1),
+	('Общий анализ мочи', 25, 40, 2),
+	('Общий анализ кала', 35, 50, 2),
+	('Общий анализ мочи', 25, 40, 2),
+	('Тест на COVID-19', 160, 210, 3);
+
+DROP TABLE IF EXISTS GroupsAn;
+
+CREATE TABLE GroupsAn
+(
+	gr_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	gr_name varchar(50),
+	gr_temp FLOAT(5,1),
+	FOREIGN KEY (gr_id) REFERENCES Analysis (an_id)
+	ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO groupsan (gr_name, gr_temp)
+VALUES 
+	('Анализы крови', -12.2),
+	('Общие анализы', -20.0),
+	('ПЦР-диагностика', -20.5);
+
+SELECT * FROM groupsan;
+
+DROP TABLE IF EXISTS Orders;
+CREATE TABLE Orders
+(
+	ord_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	ord_datetime DATETIME,	-- 'YYYY-MM-DD hh:mm:ss'
+	ord_an INT,
+	FOREIGN KEY (ord_an) REFERENCES Analysis (an_id)
+	ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO Orders (ord_datetime, ord_an)
+VALUES 
+	('2020-02-04 07:15:25', 1),
+	('2020-02-04 07:20:50', 2),
+	('2020-02-04 07:30:04', 1),
+	('2020-02-04 07:40:57', 1),
+	('2020-02-05 07:05:14', 1),
+	('2020-02-05 07:15:15', 3),
+	('2020-02-05 07:30:49', 3),
+	('2020-02-06 07:10:10', 2),
+	('2020-02-06 07:20:38', 2),
+	('2020-02-07 07:05:09', 1),
+	('2020-02-07 07:10:54', 1),
+	('2020-02-07 07:15:25', 1),
+	('2020-02-08 07:05:44', 1),
+	('2020-02-08 07:10:39', 2),
+	('2020-02-08 07:20:36', 1),
+	('2020-02-08 07:25:26', 3),
+	('2020-02-09 07:05:06', 1),
+	('2020-02-09 07:10:34', 1),
+	('2020-02-09 07:20:19', 2),
+	('2020-02-10 07:05:55', 3),
+	('2020-02-10 07:15:08', 3),
+	('2020-02-10 07:25:07', 1),
+	('2020-02-11 07:05:33', 1),
+	('2020-02-11 07:10:32', 2),
+	('2020-02-11 07:20:17', 3),
+	('2020-02-12 07:05:36', 1),
+	('2020-02-12 07:10:54', 2),
+	('2020-02-12 07:20:19', 3),
+	('2020-02-12 07:35:38', 1);
+
+-- Используя JOIN-ы, выполните следующие операции:
+
+-- 1.Вывести всех котиков по магазинам по id (условие соединения shops.id = cats.shops_id)
+SELECT shops.id AS 'shop id', cats.name  AS 'Cats'
+FROM shops
+JOIN cats
+ON shops.id = cats.shops_id;
+
+-- 2.Вывести магазин, в котором продается кот “Мурзик” (попробуйте выполнить 2 способами)
+
+SELECT shops.shopname
+FROM shops
+JOIN cats
+WHERE shops.id = cats.shops_id AND cats.name = "Murzik";
+ 
+SELECT shops.shopname
+FROM shops
+JOIN cats
+ON shops.id = cats.shops_id AND cats.name = "Murzik";
+
+-- 3.Вывести магазины, в которых НЕ продаются коты “Мурзик” и “Zuza”
+
+SELECT shops.shopname
+FROM shops
+WHERE shops.id NOT IN (
+SELECT shops.id FROM shops
+JOIN cats
+ON shops.id = cats.shops_id
+WHERE cats.name IN ('Murzik', 'Zuza'));
+
+-- 4.Вывести название и цену для всех анализов, которые продавались 5 февраля 2020 и всю следующую неделю.
+SELECT an_name, an_price
+FROM Analysis
+JOIN Orders ON Analysis.an_id = Orders.ord_an
+WHERE ord_datetime BETWEEN '2020-02-05' AND '2020-02-12';
