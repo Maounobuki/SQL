@@ -455,3 +455,73 @@ SELECT *,
 cost - LAG(cost)  OVER w AS 'diff' 
 FROM cars
 WINDOW w AS (ORDER BY cost);
+
+-- Создайте функцию, которая принимает кол-во сек и формат их в кол-во дней часов. Пример: 123456 ->'1 days 10 hours 17 minutes 36 seconds
+DELIMITER $$
+
+CREATE FUNCTION seconds_distribution (seconds int) 
+  RETURNS varchar(250)
+  DETERMINISTIC
+BEGIN
+  DECLARE result varchar(250);
+  DECLARE days int DEFAULT 0;
+  DECLARE hours int DEFAULT 0;
+  DECLARE minutes int DEFAULT 0;
+
+ 
+  IF seconds >= 86400 THEN
+    SET days = seconds DIV 86400;
+    SET seconds = seconds % 86400;
+  END IF;
+
+  
+  IF seconds >= 3600 THEN
+    SET hours = seconds DIV 3600;
+    SET seconds = seconds % 3600; 
+  END IF;
+
+
+  IF seconds >=60 THEN
+    SET minutes = seconds DIV 60;
+    SET seconds = seconds % 60;
+  END IF;
+  
+  SET result = CONCAT(
+                    CAST(days AS CHAR), ' дней ',
+                    CAST(hours AS CHAR), ' час ',
+                    CAST(minutes AS CHAR), 'мин.');
+
+  SET result = CONCAT(result, CAST(seconds AS CHAR), ' сек.');
+  
+  RETURN result;
+END$$
+DELIMITER ;
+SELECT seconds_distribution (1234567);
+
+-- Создайте процедуру которая, выводит только четные числа от 1 до 10. Пример: 2,4,6,8,10
+DELIMITER //
+CREATE PROCEDURE evens(`start` INT, `end` INT)
+BEGIN
+	DECLARE i INT DEFAULT `start`;
+    DECLARE res_str TEXT DEFAULT NULL;
+    WHILE  i<=`end` DO
+        IF i%2 = 0 THEN
+			IF res_str IS NULL THEN
+				SET res_str = concat(i);
+			ELSE
+				SET res_str = concat(res_str, ', ', i);
+			END IF;
+		END IF;
+        SET i = i + 1;
+    END WHILE;
+	SELECT res_str;
+END //
+
+DELIMITER ;
+
+
+
+CALL evens(1, 10);
+
+
+
